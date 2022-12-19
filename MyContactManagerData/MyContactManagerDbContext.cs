@@ -24,20 +24,22 @@ namespace MyContactManagerData
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            var builder = new ConfigurationBuilder()
-                            .SetBasePath(Directory.GetCurrentDirectory())
-                            .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true);
-            _configuration = builder.Build();
-            var cnstr = _configuration.GetConnectionString("MyContactManager");
-            optionsBuilder.UseSqlServer(cnstr);
+            if (!optionsBuilder.IsConfigured)
+            {
+                var builder = new ConfigurationBuilder()
+                                .SetBasePath(Directory.GetCurrentDirectory())
+                                .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true);
+                _configuration = builder.Build();
+                var cnstr = _configuration.GetConnectionString("MyContactManager");
+                optionsBuilder.UseSqlServer(cnstr);
+            }
         }
-
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<State>(x =>
             {
                 x.HasData(
-                    new State() { Id = 1, Name = "Alabama", Abbreviation = "AL"},
+                    new State() { Id = 1, Name = "Alabama", Abbreviation = "AL" },
                     new State() { Id = 2, Name = "Alaska", Abbreviation = "AK" },
                     new State() { Id = 3, Name = "Arizona", Abbreviation = "AZ" },
                     new State() { Id = 4, Name = "Arkansas", Abbreviation = "AR" },
