@@ -7,7 +7,15 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ContactWebEFCore6", "Contac
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ContactWebModels", "ContactWebModels\ContactWebModels.csproj", "{57F16376-4929-4CD9-900F-1A4171F30C4A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MyContactManagerData", "MyContactManagerData\MyContactManagerData.csproj", "{CB246CDA-C99C-448E-9B0D-805AF669BEB6}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MyContactManagerData", "MyContactManagerData\MyContactManagerData.csproj", "{CB246CDA-C99C-448E-9B0D-805AF669BEB6}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MyContactManagerRepo", "..\..\..\..\MSSA\webdev\CCAD8_ContactWebEFCore6\MyContactManagerRepo\MyContactManagerRepo.csproj", "{11A066C6-75AA-494F-95EF-1A6F84F522B2}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MyContactManagetIntegrationTests", "MyContactManagetIntegrationTests\MyContactManagetIntegrationTests.csproj", "{D2EED8C2-8B80-4A85-87FA-E40B87DA4696}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MyContactManagerServices", "MyContactManagerServices\MyContactManagerServices.csproj", "{6661B3AD-57D9-4552-82CA-0C12D2044E51}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MyContactManagerUnitTests", "MyContactManagerUnitTests\MyContactManagerUnitTests.csproj", "{4B5F559D-DEE1-4057-93B6-8F2ECB6687AE}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -27,6 +35,22 @@ Global
 		{CB246CDA-C99C-448E-9B0D-805AF669BEB6}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{CB246CDA-C99C-448E-9B0D-805AF669BEB6}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{CB246CDA-C99C-448E-9B0D-805AF669BEB6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{11A066C6-75AA-494F-95EF-1A6F84F522B2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{11A066C6-75AA-494F-95EF-1A6F84F522B2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{11A066C6-75AA-494F-95EF-1A6F84F522B2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{11A066C6-75AA-494F-95EF-1A6F84F522B2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D2EED8C2-8B80-4A85-87FA-E40B87DA4696}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D2EED8C2-8B80-4A85-87FA-E40B87DA4696}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D2EED8C2-8B80-4A85-87FA-E40B87DA4696}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D2EED8C2-8B80-4A85-87FA-E40B87DA4696}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6661B3AD-57D9-4552-82CA-0C12D2044E51}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6661B3AD-57D9-4552-82CA-0C12D2044E51}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6661B3AD-57D9-4552-82CA-0C12D2044E51}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6661B3AD-57D9-4552-82CA-0C12D2044E51}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4B5F559D-DEE1-4057-93B6-8F2ECB6687AE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4B5F559D-DEE1-4057-93B6-8F2ECB6687AE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4B5F559D-DEE1-4057-93B6-8F2ECB6687AE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4B5F559D-DEE1-4057-93B6-8F2ECB6687AE}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
