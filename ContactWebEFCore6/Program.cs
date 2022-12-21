@@ -2,6 +2,8 @@ using ContactWebEFCore6.Data;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using MyContactManagerData;
+using MyContactManagerRepo;
+using MyContactManagerServices;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -18,6 +20,8 @@ builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.Requ
     .AddEntityFrameworkStores<ApplicationDbContext>();
 builder.Services.AddControllersWithViews();
 builder.Services.AddDistributedMemoryCache(); builder.Services.AddSession(options => { options.IdleTimeout = TimeSpan.FromSeconds(120); options.Cookie.HttpOnly = true; options.Cookie.IsEssential = true; });
+builder.Services.AddScoped<IStatesService, StatesService>();
+builder.Services.AddScoped<IStatesRepository, StatesRepository>();
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.

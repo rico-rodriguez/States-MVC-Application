@@ -3,19 +3,18 @@ using ContactWebModels;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Caching.Memory;
-using MyContactManagerData;
-using Newtonsoft.Json;
+using MyContactManagerServices;
 
 namespace ContactWebEFCore6.Controllers
 {
     public class StatesController : Controller
     {
-        private readonly MyContactManagerDbContext _context;
+        private readonly IStatesService _statesService;
         private readonly IMemoryCache _memoryCache;
 
-        public StatesController(MyContactManagerDbContext context, IMemoryCache memoryCache)
+        public StatesController(IStatesService statesService, IMemoryCache memoryCache)
         {
-            _context = context;
+            _statesService = statesService;
             _memoryCache = memoryCache;
         }
 
@@ -31,7 +30,7 @@ namespace ContactWebEFCore6.Controllers
             var states = new List<State>();
             if (!_memoryCache.TryGetValue(ContactCacheConstants.statesData, out states))
             {
-                states = await _context.States.OrderBy(x => x.Name).ToListAsync();
+                states = await _statesService.GetAllAsync();
                 var cacheEntryOptions = new MemoryCacheEntryOptions()
                     .SetSlidingExpiration(TimeSpan.FromMinutes(5));
                 _memoryCache.Set(ContactCacheConstants.statesData, states, cacheEntryOptions);
@@ -40,18 +39,18 @@ namespace ContactWebEFCore6.Controllers
             return states;
         }
 
-        private async Task<List<State>> GetStates()
-        {
-            var session = HttpContext.Session;
-            var statesData = session.GetString("statesData");
-            if (!string.IsNullOrWhiteSpace(statesData))
-            {
-                return JsonConvert.DeserializeObject<List<State>>(session.GetString(ContactCacheConstants.statesData));
-            }
-            List<State> states = await _context.States.OrderBy(x => x.Name).ToListAsync();
-            session.SetString(ContactCacheConstants.statesData, JsonConvert.SerializeObject(states));
-            return states;
-        }
+        //private async Task<List<State>> GetStates()
+        //{
+        //    var session = HttpContext.Session;
+        //    var statesData = session.GetString("statesData");
+        //    if (!string.IsNullOrWhiteSpace(statesData))
+        //    {
+        //        return JsonConvert.DeserializeObject<List<State>>(session.GetString(ContactCacheConstants.statesData));
+        //    }
+        //    List<State> states = await _statesService.GetAllAsync();
+        //    session.SetString(ContactCacheConstants.statesData, JsonConvert.SerializeObject(states));
+        //    return states;
+        //}
         // GET: States/Details/5
         public async Task<IActionResult> Details(int? id)
         {
@@ -60,8 +59,7 @@ namespace ContactWebEFCore6.Controllers
                 return NotFound();
             }
 
-            var state = await _context.States
-                .FirstOrDefaultAsync(m => m.Id == id);
+            var state = await _statesService.GetAsync((int)id);
             if (state == null)
             {
                 return NotFound();
@@ -85,8 +83,7 @@ namespace ContactWebEFCore6.Controllers
         {
             if (ModelState.IsValid)
             {
-                _context.Add(state);
-                await _context.SaveChangesAsync();
+                await _statesService.AddorUpdateAsync(state);
                 _memoryCache.Remove(ContactCacheConstants.statesData);
                 return RedirectToAction(nameof(Index));
             }
@@ -96,12 +93,11 @@ namespace ContactWebEFCore6.Controllers
         // GET: States/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
-            if (id == null)
+            if (id == null || !await _statesService.ExistsAsync((int)id))
             {
                 return NotFound();
             }
-
-            var state = await _context.States.FindAsync(id);
+            var state = await _statesService.GetAsync((int)id);
             if (state == null)
             {
                 return NotFound();
@@ -125,8 +121,7 @@ namespace ContactWebEFCore6.Controllers
             {
                 try
                 {
-                    _context.Update(state);
-                    await _context.SaveChangesAsync();
+                    await _statesService.AddorUpdateAsync(state);
                     _memoryCache.Remove(ContactCacheConstants.statesData);
                 }
                 catch (DbUpdateConcurrencyException)
@@ -148,13 +143,11 @@ namespace ContactWebEFCore6.Controllers
         // GET: States/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
-            if (id == null)
+            if (id == null || !await _statesService.ExistsAsync((int)id))
             {
                 return NotFound();
             }
-
-            var state = await _context.States
-                .FirstOrDefaultAsync(m => m.Id == id);
+            var state = await _statesService.GetAsync((int)id);
             if (state == null)
             {
                 return NotFound();
@@ -168,16 +161,15 @@ namespace ContactWebEFCore6.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var state = await _context.States.FindAsync(id);
-            _context.States.Remove(state);
-            await _context.SaveChangesAsync();
+            var state = await _statesService.GetAsync(id);
+            await _statesService.DeleteAsync(state);
             _memoryCache.Remove(ContactCacheConstants.statesData);
             return RedirectToAction(nameof(Index));
         }
 
         private bool StateExists(int id)
         {
-            return _context.States.Any(e => e.Id == id);
+            return _statesService.ExistsAsync(id).Result;
         }
     }
 }
